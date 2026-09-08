@@ -260,11 +260,31 @@ const TIERS = [
   },
 ];
 
-const TERRITORIES = [
-  ["Tier 1 — ₹45 Lakhs", ["Anakapalle", "Narsipatnam", "Srikakulam", "Vizianagaram"]],
-  [
-    "Tier 2 — ₹25 Lakhs",
-    [
+const TERRITORIES: {
+  tier: string;
+  price: string;
+  size: string;
+  rows: { name: string; status: string; available: boolean }[];
+}[] = [
+  {
+    tier: "Tier 1",
+    price: "₹45 Lakhs",
+    size: "2,000 sq. ft.",
+    rows: [
+      { name: "Vizag (Madhurawada)", status: "Booked (Work in Progress)", available: false },
+      { name: "Vizag (NAD Junction)", status: "Booked (Work in Progress)", available: false },
+      { name: "Gajuwaka", status: "Booked (Work in Progress)", available: false },
+      { name: "Anakapalle", status: "Open for Franchise", available: true },
+      { name: "Narsipatnam", status: "Open for Franchise", available: true },
+      { name: "Srikakulam", status: "Open for Franchise", available: true },
+      { name: "Vizianagaram", status: "Open for Franchise", available: true },
+    ],
+  },
+  {
+    tier: "Tier 2",
+    price: "₹25 Lakhs",
+    size: "1,500 sq. ft.",
+    rows: [
       "Bobbili",
       "Parvathipuram",
       "Srungavarapukota (S.Kota)",
@@ -276,15 +296,24 @@ const TERRITORIES = [
       "Tekkali",
       "Chodavaram",
       "Amadalavalasa",
-    ],
-  ],
-  [
-    "Tier 3 — ₹10 Lakhs",
-    ["Salur", "Ranasthalam", "Cheepurupalli", "Gajapathinagaram", "Araku", "Paderu"],
-  ],
+    ].map((name) => ({ name, status: "Open for Franchise", available: true })),
+  },
+  {
+    tier: "Tier 3",
+    price: "₹10 Lakhs",
+    size: "1,000 sq. ft.",
+    rows: ["Salur", "Ranasthalam", "Cheepurupalli", "Gajapathinagaram", "Araku", "Paderu"].map(
+      (name) => ({ name, status: "Open for Franchise", available: true }),
+    ),
+  },
+];
+
+const TERRITORY_STATS = [
+  ["24", "Total Territories"],
+  ["21", "Available"],
+  ["3", "Booked / Work in Progress"],
 ] as const;
 
-const BOOKED = ["Vizag (Madhurawada)", "Vizag (NAD Junction)", "Gajuwaka"];
 
 /* ---------- page ---------- */
 
