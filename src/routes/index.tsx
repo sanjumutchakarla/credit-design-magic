@@ -650,45 +650,94 @@ function Index() {
             </p>
           </Reveal>
 
-          <div className="mt-14 grid gap-6 lg:grid-cols-3">
-            {TERRITORIES.map(([label, towns], i) => (
-              <Reveal key={label} delay={i * 90}>
-                <div className="h-full border border-border bg-card p-8">
-                  <p className="font-display text-sm tracking-[0.22em] text-primary uppercase">{label}</p>
-                  <ul className="mt-6 space-y-3">
-                    {towns.map((t) => (
-                      <li key={t} className="flex items-center justify-between border-b border-border pb-3 text-sm">
-                        <span>{t}</span>
-                        <span className="font-display text-[10px] tracking-[0.2em] text-muted-foreground uppercase">
-                          Available
-                        </span>
-                      </li>
+          <Reveal>
+            <div className="mt-10 grid gap-px border border-border bg-border sm:grid-cols-3">
+              {TERRITORY_STATS.map(([n, label]) => (
+                <div key={label} className="bg-card px-6 py-7">
+                  <p className="display-title text-4xl text-primary">{n}</p>
+                  <p className="mt-2 font-display text-[11px] tracking-[0.24em] text-muted-foreground uppercase">
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <div className="mt-12 space-y-12">
+            {TERRITORIES.map((group, i) => (
+              <Reveal key={group.tier} delay={i * 80}>
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-primary/40 pb-4">
+                  <p className="font-display text-sm tracking-[0.24em] text-primary uppercase">
+                    {group.tier} — {group.price}
+                  </p>
+                  <p className="font-display text-[11px] tracking-[0.2em] text-muted-foreground uppercase">
+                    {group.size} · {group.rows.length} locations
+                  </p>
+                </div>
+
+                {/* desktop table */}
+                <table className="mt-6 hidden w-full border-collapse text-left md:table">
+                  <thead>
+                    <tr className="font-display text-[10px] tracking-[0.24em] text-muted-foreground uppercase">
+                      <th className="w-12 border-b border-border pb-3 font-500">#</th>
+                      <th className="border-b border-border pb-3 font-500">Location</th>
+                      <th className="border-b border-border pb-3 font-500">Status</th>
+                      <th className="border-b border-border pb-3 text-right font-500">Availability</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {group.rows.map((r, idx) => (
+                      <tr key={r.name} className="text-sm">
+                        <td className="border-b border-border py-4 text-muted-foreground">
+                          {String(idx + 1).padStart(2, "0")}
+                        </td>
+                        <td className="border-b border-border py-4">{r.name}</td>
+                        <td className="border-b border-border py-4 text-muted-foreground">{r.status}</td>
+                        <td className="border-b border-border py-4 text-right">
+                          <span
+                            className={`inline-block border px-3 py-1 font-display text-[10px] tracking-[0.2em] uppercase ${
+                              r.available
+                                ? "border-primary/50 text-primary"
+                                : "border-border bg-secondary text-muted-foreground"
+                            }`}
+                          >
+                            {r.available ? "Available" : "Unavailable"}
+                          </span>
+                        </td>
+                      </tr>
                     ))}
-                  </ul>
+                  </tbody>
+                </table>
+
+                {/* mobile cards */}
+                <div className="mt-6 grid gap-4 md:hidden">
+                  {group.rows.map((r) => (
+                    <div key={r.name} className="border border-border bg-card p-5">
+                      <div className="flex items-start justify-between gap-4">
+                        <p className="text-base">{r.name}</p>
+                        <span
+                          className={`shrink-0 border px-2.5 py-1 font-display text-[10px] tracking-[0.2em] uppercase ${
+                            r.available
+                              ? "border-primary/50 text-primary"
+                              : "border-border bg-secondary text-muted-foreground"
+                          }`}
+                        >
+                          {r.available ? "Available" : "Unavailable"}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm text-muted-foreground">{r.status}</p>
+                    </div>
+                  ))}
                 </div>
               </Reveal>
             ))}
           </div>
 
           <Reveal>
-            <div className="mt-10 border border-primary/30 p-8">
-              <p className="font-display text-sm tracking-[0.22em] text-primary uppercase">
-                Booked / Work in Progress
-              </p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                {BOOKED.map((b) => (
-                  <span
-                    key={b}
-                    className="border border-border bg-secondary px-4 py-2 text-sm text-muted-foreground line-through"
-                  >
-                    {b}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <p className="mt-6 text-sm text-muted-foreground">
+            <p className="mt-10 text-sm text-muted-foreground">
               Territories are allocated on a first-come, first-served basis.
             </p>
+
             <a
               href="#contact"
               className="mt-8 inline-block bg-primary px-8 py-4 font-display text-sm font-700 tracking-[0.18em] text-primary-foreground uppercase transition-colors hover:bg-foreground hover:text-background"
